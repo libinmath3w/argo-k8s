@@ -16,7 +16,7 @@ spec:
          containers:
            - name: nodejsapp-erp
              image: "ghcr.io/benc-uk/nodejs-demoapp:latest"
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       type: front-end
