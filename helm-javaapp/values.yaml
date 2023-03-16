@@ -1,0 +1,12 @@
+appName: myjavahelmapp
+
+port: 80
+
+configmap:
+  name: myhelmapp-configmap-v1
+  data:
+    CUSTOM_HEADER: 'This app was deployed with helm!'
+
+image:
+  name: libinmathew/hello-world-java
+  tag: "1.0.1"
