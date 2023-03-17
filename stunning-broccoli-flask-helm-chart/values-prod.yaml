@@ -1,0 +1,8 @@
+
+replicas: 4
+port: 6000
+targetPort: 5000
+
+image:
+  name: libinmathew/stunning-broccoli-flask-app
+  tag: prod

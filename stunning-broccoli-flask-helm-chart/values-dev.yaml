@@ -1,0 +1,8 @@
+
+port: 6000
+targetPort: 5000
+replicas: 5
+
+image:
+  name: libinmathew/stunning-broccoli-flask-app
+  tag: dev

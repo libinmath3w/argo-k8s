@@ -1,0 +1,10 @@
+appName: stunning-broccoli-flask-app
+
+port: 6000
+targetPort: 5000
+replicas: 4
+deploymentName: stunning-broccoli-flask-app-deployment
+
+image:
+  name: libinmathew/stunning-broccoli-flask-app
+  tag: prod
