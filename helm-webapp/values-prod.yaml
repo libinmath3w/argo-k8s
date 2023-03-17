@@ -6,4 +6,4 @@ configmap:
     CUSTOM_HEADER: 'This is on the PROD environment!'
 image:
   name: libinmathew/stunning-broccoli-flask-app
-  tag: prod    
+  tag: demo    
