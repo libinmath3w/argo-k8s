@@ -6,5 +6,5 @@ replicas: 4
 deploymentName: stunning-broccoli-flask-app-deployment
 
 image:
-  name: libinmathew/stunning-broccoli-flask-app
-  tag: prod
+  name: bravinwasike/flask-kubernetes
+  tag: latest
