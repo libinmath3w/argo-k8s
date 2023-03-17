@@ -17,7 +17,7 @@ spec:
       containers:
       - name: mycontainer
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         # ports:
         # - containerPort: 80
         resources:
