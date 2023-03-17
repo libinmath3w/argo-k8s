@@ -18,14 +18,14 @@ spec:
     spec:
       containers:
         - name: "k8s-hello-node"
-          image: "byjg/k8s-hello-node"
+          image: "libinmathew/stunning-broccoli-nodejs-app:prod"
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "700m"
 
 ---
 
