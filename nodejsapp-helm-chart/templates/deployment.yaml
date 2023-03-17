@@ -1,61 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "nodejsapp-helm-chart.fullname" . }}
+  name: {{ .Values.appName }}
   labels:
-    {{- include "nodejsapp-helm-chart.labels" . | nindent 4 }}
+    app: {{ .Values.appName }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      {{- include "nodejsapp-helm-chart.selectorLabels" . | nindent 6 }}
+      app: {{ .Values.appName }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "nodejsapp-helm-chart.selectorLabels" . | nindent 8 }}
-    spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "nodejsapp-helm-chart.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        app: {{ .Values.appName }}
+    spec: # Pod spec
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          # ports:
-          #   - name: http
-          #     containerPort: {{ .Values.service.port }}
-          #     protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      - name: mycontainer
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        # ports:
+        # - containerPort: 80
+        resources:
+          requests:
+            memory: "128Mi" 
+            cpu: "500m"    # 500milliCPUs (1/2 CPU)
+          limits:
+            memory: "256Mi"
+            cpu: "600m"

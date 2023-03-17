@@ -1,12 +1,7 @@
-# Default values for nodejsapp-helm-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 appName: mynodejshelmapp
-serviceName: mynodejs-service
 
 port: 80
-replicas: 3
+replicas: 4
 targetPort: 3000
 type: LoadBalancer
 
