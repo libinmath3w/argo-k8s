@@ -10,4 +10,4 @@ configmap:
 
 image:
   name: libinmathew/stunning-broccoli-flask-app
-  tag: prod
+  tag: demo
