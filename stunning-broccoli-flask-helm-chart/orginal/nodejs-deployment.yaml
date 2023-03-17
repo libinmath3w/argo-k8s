@@ -7,7 +7,7 @@ metadata:
   labels:
     app: "k8s-node"
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: "k8s-node"
@@ -18,6 +18,7 @@ spec:
     spec:
       containers:
         - name: "k8s-hello-node"
+          imagePullPolicy: Always
           image: "libinmathew/stunning-broccoli-nodejs-app:prod"
           resources:
             requests:
