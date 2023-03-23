@@ -11,8 +11,8 @@ targetPort: 3000
 type: LoadBalancer
 
 image:
-  #repository: libinmathew/stunning-broccoli-nodejs-app
+  repository: libinmathew/stunning-broccoli-nodejs-app
   pullPolicy: Always
-  repository: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app
+  #repository: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app
   # Overrides the image tag whose default is the chart appVersion.
   tag: "prod"
