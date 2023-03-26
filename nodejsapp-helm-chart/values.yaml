@@ -6,7 +6,7 @@ appName: mynodejshelmapp
 serviceName: mynodejs-service
 
 port: 80
-replicas: 4
+replicas: 3
 targetPort: 3000
 type: LoadBalancer
 
@@ -16,3 +16,10 @@ image:
   repository: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app
   # Overrides the image tag whose default is the chart appVersion.
   tag: "prod"
+  # private repo information
+harborRepositoryInfo:
+  username: demo 
+  password: Demo@123
+  server: harbor.intrastream.cyou
+  emailid: demo@demo.com
+  secretname: nodejs-app-secret

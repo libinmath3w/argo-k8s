@@ -18,6 +18,8 @@ spec:
       - name: mycontainer
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullSecrets:
+          - name: {{ .Values.harborRepositoryInfo.nodejs-app-secret }}
         # ports:
         # - containerPort: 80
         resources:
