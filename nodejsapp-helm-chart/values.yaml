@@ -22,4 +22,4 @@ harborRepositoryInfo:
   password: Demo@123
   server: harbor.intrastream.cyou
   emailid: demo@demo.com
-  secretname: nodejs-app-secret
+  secretname: nodejsappsecret
