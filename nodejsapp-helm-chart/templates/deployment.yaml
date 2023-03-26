@@ -14,12 +14,17 @@ spec:
       labels:
         app: {{ .Values.appName }}
     spec: # Pod spec
-      imagePullSecrets:
-      - name: nodejsappsecret
+      # imagePullSecrets:
+      # - name: nodejsappsecret
       containers:
       - name: mycontainer
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+      imageCredentials:
+        name: harbor_credentials
+        registry: harbor.intrastream.cyou
+        username: demo
+        password: Demo@123  
         # ports:
         # - containerPort: 80
         resources:
