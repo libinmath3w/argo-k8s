@@ -14,8 +14,7 @@ spec:
       labels:
         app: {{ .Values.appName }}
     spec: # Pod spec
-      # imagePullSecrets:
-      # - name: nodejsappsecret
+      
       containers:
       - name: mycontainer
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -34,3 +33,5 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "600m"
+      imagePullSecrets:
+      - name: harborrepo
