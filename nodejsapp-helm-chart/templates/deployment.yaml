@@ -3,9 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Values.appName }}
   labels:
-    app: {{ .Values.appName }}
-  annotations:
-    argocd.argoproj.io/sync-options: Validate=false  
+    app: {{ .Values.appName }} 
 spec:
   replicas: {{ .Values.replicas }}
   selector:
