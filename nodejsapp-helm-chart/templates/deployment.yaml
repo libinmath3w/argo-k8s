@@ -4,6 +4,8 @@ metadata:
   name: {{ .Values.appName }}
   labels:
     app: {{ .Values.appName }}
+  annotations:
+    argocd.argoproj.io/sync-options: Validate=false  
 spec:
   replicas: {{ .Values.replicas }}
   selector:
