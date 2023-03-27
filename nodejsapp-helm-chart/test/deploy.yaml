@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nodejsappsecret
+data:
+  # Harbor Service secrets
+  harbor-username: ZGVtbw==
+  harbor-password: RGVtb0AxMjM=
+  harbor-server: aGFyYm9yLmludHJhc3RyZWFtLmN5b3U=
+  harbor-email: ZGVtb0BkZW1vLmNvbQ==
+type: Opaque
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,12 +27,7 @@ spec:
      spec:
          containers:
           - name: nodejsapp-erp
-            image: "harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:prod"
-            imageCredentials:
-              name: harbor_credentials
-              registry: harbor.intrastream.cyou
-              username: demo
-              password: Demo@123      
+            image: "harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:prod"     
   replicas: 1
   selector:
     matchLabels:
