@@ -15,7 +15,8 @@ image:
   pullPolicy: Always
   repository: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "private"
+  #tag: "private"
+  tag: "prod"
   # private repo information
 harborRepositoryInfo:
   # username: demo 
