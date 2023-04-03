@@ -26,5 +26,6 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "600m"
+      insecure-skip-tls-verify: true      
       imagePullSecrets:
       - name: quayrepo
