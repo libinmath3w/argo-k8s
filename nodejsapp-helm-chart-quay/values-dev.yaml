@@ -1,0 +1,12 @@
+appName: mynodejshelmapp
+
+port: 80
+replicas: 5
+targetPort: 3000
+type: LoadBalancer
+
+image:
+  repository: libinmathew/stunning-broccoli-nodejs-app
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "dev"
