@@ -18,14 +18,4 @@ image:
   tag: "private"
   #tag: "prod"
   # private repo information
-harborRepositoryInfo:
-  # username: demo 
-  # password: Demo@123
-  # server: harbor.intrastream.cyou
-  # emailid: demo@demo.com
-  # secretname: nodejsappsecret
-  username: ZGVtbw== 
-  password: RGVtb0AxMjM=
-  server: aGFyYm9yLmludHJhc3RyZWFtLmN5b3U=
-  emailid: ZGVtb0BkZW1vLmNvbQ==
-  secretname: nodejsappsecret
+
