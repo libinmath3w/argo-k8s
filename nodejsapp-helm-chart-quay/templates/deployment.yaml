@@ -19,11 +19,11 @@ spec:
       - name: mycontainer
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        # env:
-        #   - name: REGISTRY_HTTP_TLS_CERTIFICATE
-        #     value: "/certs/cert.pem"
-        #   - name: REGISTRY_HTTP_TLS_KEY
-        #     value: "/certs/privkey.pem"
+        env:
+          - name: REGISTRY_HTTP_TLS_CERTIFICATE
+            value: "nodejswebquay/certs/cert.pem"
+          - name: REGISTRY_HTTP_TLS_KEY
+            value: "nodejswebquay/certs/privkey.pem"
         resources:
           requests:
             memory: "128Mi" 
