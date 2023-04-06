@@ -6,7 +6,7 @@ appName: mynodejshelmapp
 serviceName: mynodejs-service
 
 port: 80
-replicas: 5
+replicas: 4
 targetPort: 3000
 type: LoadBalancer
 
