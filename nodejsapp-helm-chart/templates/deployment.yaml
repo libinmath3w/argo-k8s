@@ -19,13 +19,6 @@ spec:
       - name: mycontainer
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-      # imageCredentials:
-      #   name: harbor_credentials
-      #   registry: harbor.intrastream.cyou
-      #   username: demo
-      #   password: Demo@123  
-        # ports:
-        # - containerPort: 80
         resources:
           requests:
             memory: "128Mi" 
