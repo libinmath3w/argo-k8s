@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: rollouts-demo
+spec:
+  replicas: 4
+  strategy:
+    canary:
+      canaryService: rollouts-nodejs-canary
+      stableService: rollouts-nodejs-stable
+      trafficRouting:
+        nginx:
+          stableIngress: rollouts-nodejs-stable
+      steps:
+      - setWeight: 5
+      - pause: {duration: 10}
+      - setWeight: 20
+      - pause: {duration: 20}
+      - setWeight: 60
+      - pause: {}
+  revisionHistoryLimit: 4
+  selector:
+    matchLabels:
+      app: rollouts-demo
+  template:
+    metadata:
+      labels:
+        app: rollouts-demo
+    spec:
+      containers:
+      - name: rollouts-demo
+        image: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:prod
+        # ports:
+        # - name: http
+        #   containerPort: 8080
+        #   protocol: TCP
+        resources:
+          requests:
+            memory: 125Mi
+            cpu: 300m
+      imagePullSecrets:
+      - name: harborrepo
