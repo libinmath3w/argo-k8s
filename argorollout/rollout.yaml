@@ -13,8 +13,12 @@ spec:
           stableIngress: rollouts-demo-stable
       steps:
       - setWeight: 5
+      - pause: {duration: 10}
+      - setWeight: 20
+      - pause: {duration: 20}
+      - setWeight: 60
       - pause: {}
-  revisionHistoryLimit: 2
+  revisionHistoryLimit: 4
   selector:
     matchLabels:
       app: rollouts-demo
