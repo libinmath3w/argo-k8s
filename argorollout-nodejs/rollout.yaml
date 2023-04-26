@@ -29,8 +29,8 @@ spec:
     spec:
       containers:
       - name: rollouts-demo
-        # image: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:prod
-        image: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:private
+        image: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:prod
+        # image: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:private
         # ports:
         # - name: http
         #   containerPort: 8080
