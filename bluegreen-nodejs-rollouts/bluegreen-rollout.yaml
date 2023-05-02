@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: bluegreen-nodejs-demo
-        image: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:public
+        image: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:prod
         imagePullPolicy: Always
         # ports:
         # - name: http
