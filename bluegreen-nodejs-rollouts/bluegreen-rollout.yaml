@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: bluegreen-nodejs-demo
+  labels:
+    app: bluegreen-nodejs-demo
+spec:
+  replicas: 3
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: bluegreen-nodejs-demo
+  template:
+    metadata:
+      labels:
+        app: bluegreen-nodejs-demo
+    spec:
+      containers:
+      - name: bluegreen-nodejs-demo
+        image: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app:private
+        imagePullPolicy: Always
+        # ports:
+        # - name: http
+        #   containerPort: 8080
+        #   protocol: TCP
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+      imagePullSecrets:
+      - name: harborrepo
+  strategy:
+    blueGreen:
+      autoPromotionEnabled: false
+      activeService: bluegreen-nodejs-demo
+      previewService: bluegreen-nodejs-demo-preview
