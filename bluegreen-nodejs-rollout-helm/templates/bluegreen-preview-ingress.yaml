@@ -8,7 +8,7 @@ metadata:
     ingress.kubernetes.io/app-root: /
 spec:
  rules:
-  - host: {{ .Values.hosts.dev }}
+  - host: nodejsdevhelm.intrastream.cyou
     http:
       paths:
       - path: /
