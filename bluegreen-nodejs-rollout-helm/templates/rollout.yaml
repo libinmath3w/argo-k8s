@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ template "helm-nodejs-app.fullname" . }}
+  labels:
+    app: {{ template "helm-nodejs-app.name" . }}
+    chart: {{ template "helm-nodejs-app.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: {{ template "helm-nodejs-app.name" . }}
+      release: {{ .Release.Name }}
+  strategy:
+    blueGreen:
+      activeService: {{ template "helm-nodejs-app.fullname" . }}
+      previewService: {{ template "helm-nodejs-app.fullname" . }}-preview
+  template:
+    metadata:
+      labels:
+        app: {{ template "helm-nodejs-app.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        imagePullSecrets:
+        - name: harborrepo
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+        
+        #   ports:
+        #     - name: http
+        #       containerPort: 80
+        #       protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
