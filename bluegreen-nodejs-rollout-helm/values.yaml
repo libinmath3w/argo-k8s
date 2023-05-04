@@ -21,7 +21,7 @@ ingress:
     kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    dev: nodejsdev.intrastream.cyou
+    dev: nodejsdevhelm.intrastream.cyou
     prod: nodejsprod.intrastream.cyou
   tls: []
   #  - secretName: chart-example-tls
