@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ template "helm-nodejs-app.name" . }}
+  name: {{ .Values.name.appname}}
   labels:
-    app: {{ template "helm-nodejs-app.name" . }}
-    chart: {{ template "helm-nodejs-app.chart" . }}
+    app: {{ .Values.name.appname}}
+    chart: {{ .Values.name.appname}}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -12,16 +12,16 @@ spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: {{ template "helm-nodejs-app.name" . }}
+      app: {{ .Values.name.appname}}
       release: {{ .Release.Name }}
   strategy:
     blueGreen:
-      activeService: {{ template "helm-nodejs-app.name" . }}
-      previewService: {{ template "helm-nodejs-app.name" . }}-preview
+      activeService: {{ .Values.name.appname}}
+      previewService: {{ .Values.name.appname}}-preview
   template:
     metadata:
       labels:
-        app: {{ template "helm-nodejs-app.name" . }}
+        app: {{ .Values.name.appname}}
         release: {{ .Release.Name }}
     spec:
       containers:
