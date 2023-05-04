@@ -29,4 +29,4 @@ spec:
     blueGreen:
         autoPromotionEnabled: false
         activeService: {{ .Values.name.appname}}
-        previewService: "{{ .Values.name.appname}}-preview"
+        previewService: {{ .Values.name.appname}}-preview
