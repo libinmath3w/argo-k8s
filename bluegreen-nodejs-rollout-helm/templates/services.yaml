@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.name.appname}}-preview
+  name: "{{ .Values.name.appname}}-preview"
   labels:
     app: {{ .Values.name.appname}}
 spec:
