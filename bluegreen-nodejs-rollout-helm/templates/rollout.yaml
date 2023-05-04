@@ -4,29 +4,18 @@ metadata:
   name: {{ .Values.name.appname}}
   labels:
     app: {{ .Values.name.appname}}
-    chart: {{ .Values.name.appname}}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: {{ .Values.name.appname}}
-      release: {{ .Release.Name }}
-  strategy:
-    blueGreen:
-      activeService: {{ .Values.name.appname}}
-      previewService: {{ .Values.name.appname}}-preview
   template:
     metadata:
       labels:
         app: {{ .Values.name.appname}}
-        release: {{ .Release.Name }}
     spec:
-      containers:
-        imagePullSecrets:
-        - name: harborrepo
+        containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -34,30 +23,10 @@ spec:
           requests:
             memory: 128Mi
             cpu: 100m
-        
-        #   ports:
-        #     - name: http
-        #       containerPort: 80
-        #       protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+        imagePullSecrets:
+        - name: harborrepo
+  strategy:
+    blueGreen:
+        autoPromotionEnabled: false
+        activeService: {{ .Values.name.appname}}
+        previewService: {{ .Values.name.appname}}-preview
