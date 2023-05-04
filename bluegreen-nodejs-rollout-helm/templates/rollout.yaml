@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ template "helm-nodejs-app.fullname" . }}
+  name: {{ template "helm-nodejs-app.name" . }}
   labels:
     app: {{ template "helm-nodejs-app.name" . }}
     chart: {{ template "helm-nodejs-app.chart" . }}
@@ -16,8 +16,8 @@ spec:
       release: {{ .Release.Name }}
   strategy:
     blueGreen:
-      activeService: {{ template "helm-nodejs-app.fullname" . }}
-      previewService: {{ template "helm-nodejs-app.fullname" . }}-preview
+      activeService: {{ template "helm-nodejs-app.name" . }}
+      previewService: {{ template "helm-nodejs-app.name" . }}-preview
   template:
     metadata:
       labels:
