@@ -30,9 +30,9 @@ spec:
       autoPromotionEnabled: false
       canaryService: {{ .Values.name.appname}}-canary
       stableService: {{ .Values.name.appname}}-stable
-        trafficRouting:
-      nginx:
-        stableIngress: {{ .Values.name.appname}}-stable
+      trafficRouting: 
+        nginx:
+          stableIngress: {{ .Values.name.appname}}-stable
       steps:
       - setWeight: 5
       - pause: {duration: 10}
