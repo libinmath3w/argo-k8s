@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Values.name.appname}}
+  labels:
+    app: {{ .Values.name.appname}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name.appname}}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name.appname}}
+    spec:
+        containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.resources.limits.memory}}
+              cpu: {{ .Values.resources.limits.cpu}}
+        imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+  strategy:
+    canary:
+      autoPromotionEnabled: false
+      canaryService: {{ .Values.name.appname}}-canary
+      stableService: {{ .Values.name.appname}}-stable
+        trafficRouting:
+      nginx:
+        stableIngress: {{ .Values.name.appname}}-stable
+      steps:
+      - setWeight: 5
+      - pause: {duration: 10}
+      - setWeight: 20
+      - pause: {duration: 20}
+      - setWeight: 60
+      - pause: {}

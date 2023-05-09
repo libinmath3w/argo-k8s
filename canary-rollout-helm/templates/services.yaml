@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name.appname}}-canary
+  labels:
+    app: {{ .Values.name.appname}}
+spec:
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: {{ .Values.service.protocol }}
+  selector:
+    app: {{ .Values.name.appname}}
+      # This selector will be updated with the pod-template-hash of the stable ReplicaSet. e.g.:
+      # rollouts-pod-template-hash: 789746c88d
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name.appname}}-stable
+  labels:
+    app: {{ .Values.name.appname}}
+spec:
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: {{ .Values.service.protocol }}
+  selector:
+    app: {{ .Values.name.appname}}
+    # This selector will be updated with the pod-template-hash of the stable ReplicaSet. e.g.:
+    # rollouts-pod-template-hash: 789746c88d
