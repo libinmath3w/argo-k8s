@@ -27,7 +27,6 @@ spec:
         - name: {{ .Values.imagePullSecrets }}
   strategy:
     canary:
-      autoPromotionEnabled: false
       canaryService: {{ .Values.name.appname}}-canary
       stableService: {{ .Values.name.appname}}-stable
       trafficRouting: 
