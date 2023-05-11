@@ -24,7 +24,7 @@ spec:
               memory: 128Mi
               cpu: 100m
         imagePullSecrets:
-        - name: harborrepo
+        - name: {{ .Values.imagePullSecrets }}
   strategy:
     blueGreen:
         autoPromotionEnabled: false
