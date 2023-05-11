@@ -8,13 +8,13 @@ metadata:
     ingress.kubernetes.io/app-root: /
 spec:
  rules:
-  - host: nodejsprod.intrastream.cyou
+  - host: nodeprod.intrastream.cyou # change to your application url.
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: {{ .Values.name.appname}} # change to your application service name.
+            name: {{ .Values.name.appname}} 
             port:
               number: {{ .Values.service.port }}

@@ -8,13 +8,13 @@ metadata:
     ingress.kubernetes.io/app-root: /
 spec:
  rules:
-  - host: nodejsdevhelm.intrastream.cyou
+  - host: nodedev.intrastream.cyou
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: {{ .Values.name.appname}}-preview # change to your application service name.
+            name: {{ .Values.name.appname}}-preview 
             port:
               number: {{ .Values.service.port }}
