@@ -1,0 +1,14 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: argoRollouts
+  region: ap-south-1
+  version: "1.24"
+
+nodeGroups:
+  - name: k8s-big
+    instanceType: t2.micro
+    desiredCapacity: 15
+    ssh: 
+      publicKeyName: ekskey
