@@ -20,6 +20,17 @@ kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/rele
 
 kubectl apply -k https://github.com/argoproj/argo-rollouts/manifests/crds\?ref\=stable
 
+# install Nginx Ingress Controller using helm
+
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
+
+# install Nginx Ingress Controller using normal k8s way
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.1/deploy/static/provider/cloud/deploy.yaml
+
+
 
 # install argo rollouts plugin Linux only
 
