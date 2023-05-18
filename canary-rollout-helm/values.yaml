@@ -9,7 +9,7 @@ name:
   appname: helm-nodejs-canary
 image:
   repository: harbor.intrastream.cyou/nodejs/stunning-broccoli-nodejs-app
-  tag: prod
+  tag: private
   pullPolicy: Always
 
 service:
