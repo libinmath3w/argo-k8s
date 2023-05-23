@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vuejs-apps
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: vuejs-apps
+  name: deployment-vuejs
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-vuejs
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: app-vuejs
+    spec:
+      containers:
+      - image: "ghcr.io/benc-uk/vuego-demoapp:latest"
+        imagePullPolicy: Always
+        name: app-vuejs
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "512m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: vuejs-apps
+  name: service-vuejs
+spec:
+  ports:
+    - protocol: TCP
+      targetPort: 4000
+      port: 80
+      nodePort: 32000
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: app-vuejs
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: vuejs-apps
+  name: ingress-vuejs
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  
+  tls: 
+    - 
+      hosts: 
+        - k8s-vuejsapp-ingressv-66f9eb5350-644588028.ap-south-1.elb.amazonaws.com
+      secretName: my-tls-secret
+
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: service-vuejs
+              port:
+                number: 80
+  

@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nodejsapp-tls
+  namespace: node-js-demo # enter the namespace name for the ssl deployment
+spec:
+  secretName: ns-intrastream-cyou-tls # secret name for storing SSL certificate
+  dnsNames:
+    - nsjs.intrastream.cyou  # enter a domain name that you want to generate SSL
+  issuerRef:
+    name: letsencrypt-prod # SSL issuer name.in here we used Let's Encrypt
+    kind: ClusterIssuer

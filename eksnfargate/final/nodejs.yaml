@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: node-js-demo # enter the namespace name for the application deployment
+---  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-nodejs-app-deployment
+  namespace: node-js-demo # enter the namespace name for the application deployment
+spec:
+  selector:
+    matchLabels:
+      app: demonodejsapp
+  replicas: 3    
+  template:
+    metadata:
+      labels:
+        app: demonodejsapp
+    spec:
+      containers:
+      - name: demonodejsapp
+        image: "ghcr.io/benc-uk/nodejs-demoapp:latest"
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-nodejs-app-service # replace with your service name
+  namespace: node-js-demo # enter the namespace name for the application deployment
+spec:
+  selector:
+    app: demonodejsapp
+  ports:
+  - name: http
+    protocol: TCP
+    targetPort: 3000
+    port: 80
+    nodePort: 30001 
+  type: NodePort 
+
+---
+        
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-nodejs-ingress
+  namespace: node-js-demo # enter the namespace name for the application deployment
+  annotations:
+    cert-manager.io/issuer: "letsencrypt" # TLS requirement - enables cert-manager
+
+spec:
+  ingressClassName: nginx
+  tls:                                    # TLS requirement
+  - hosts:                                # TLS requirement
+    - nsjs.intrastream.cyou                  # TLS requirement - domain name(s) to secure
+    secretName: ns-intrastream-cyou-tls            # TLS requirement - certificate stored here : replace it with recently created with.
+  rules:
+  - host: nsjs.intrastream.cyou  # enter a domain name that you want to generate SSL
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: demo-nodejs-app-service # change to your application service name.
+            port:
+              number: 80

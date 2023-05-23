@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nodejs-apps-acms  #enter the namespace name for the application deployment
+---  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-nodejs-app-deployment
+  namespace: nodejs-apps-acms  #enter the namespace name for the application deployment
+spec:
+  selector:
+    matchLabels:
+      app: demonodejsapp
+  replicas: 2    
+  template:
+    metadata:
+      labels:
+        app: demonodejsapp
+    spec:
+      containers:
+      - name: demonodejsapp
+        image: "ghcr.io/benc-uk/nodejs-demoapp:latest"
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-nodejs-app-service # replace with your service name
+  namespace: nodejs-apps-acms  #enter the namespace name for the application deployment
+  annotations:
+    # Note that the backend talks over HTTP.
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    # TODO: Fill in with the ARN of your certificate.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:918252278260:certificate/da72563e-b60f-4bce-8074-3fd1c50ee505
+    # Only run SSL on the port named "https" below.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+spec:
+  selector:
+    app: demonodejsapp
+  ports:
+  - name: http
+    targetPort: 3000
+    port: 80
+  - name: https
+    port: 443
+    targetPort: 3000
+  type: LoadBalancer
+
+
+        

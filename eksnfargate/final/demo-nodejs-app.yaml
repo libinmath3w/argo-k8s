@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nodejs-apps  #enter the namespace name for the application deployment
+---  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-nodejs-app-deployment
+  namespace: nodejs-apps  #enter the namespace name for the application deployment
+spec:
+  selector:
+    matchLabels:
+      app: demonodejsapp
+  replicas: 3    
+  template:
+    metadata:
+      labels:
+        app: demonodejsapp
+    spec:
+      containers:
+      - name: demonodejsapp
+        image: "ghcr.io/benc-uk/nodejs-demoapp:latest"
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-nodejs-app-service # replace with your service name
+  namespace: nodejs-apps  #enter the namespace name for the application deployment
+spec:
+  selector:
+    app: demonodejsapp
+  ports:
+  - name: http
+    protocol: TCP
+    targetPort: 3000
+    port: 80
+    nodePort: 30002 
+  type: NodePort 
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-ingress
+  namespace: nodejs-apps  #enter the namespace name for the application deployment
+  # annotations:
+  #   cert-manager.io/issuer: "letsencrypt" # TLS requirement - enables cert-manager
+
+spec:
+  ingressClassName: nginx
+  tls:                                    # TLS requirement
+  - hosts:                                # TLS requirement
+    - node.intrastream.cyou                  # TLS requirement - domain name(s) to secure
+    secretName: my-tls-secret             # TLS requirement - certificate stored here
+  rules:
+  - host: node.intrastream.cyou
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: demo-nodejs-app-service
+            port:
+              number: 80
+        

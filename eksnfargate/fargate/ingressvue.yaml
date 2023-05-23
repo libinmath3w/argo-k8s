@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: ingress-vuejs
+spec:  
+  tls: 
+    - 
+      hosts: 
+        - adf85b18273734df6a6e35cfff090258-123007056.ap-south-1.elb.amazonaws.com
+      secretName: my-tls-secret
+
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: vue-service
+              port:
+                number: 80

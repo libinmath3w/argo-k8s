@@ -1,0 +1,74 @@
+eksctl create cluster --name FARCLUS --version 1.23 --region ap-south-1 --fargate
+
+eksctl utils associate-iam-oidc-provider --cluster FARCLUS --approve
+
+policy url
+---------------------------------
+
+https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.4/docs/install/iam_policy.json
+
+eksctl create iamserviceaccount \
+  --cluster=FARCLUS \
+  --namespace=kube-system \
+  --name=aws-load-balancer-controller \
+  --attach-policy-arn=arn:aws:iam::918252278260:policy/ALBIngressControllerIAMPolicy \
+  --override-existing-serviceaccounts \
+  --approve
+
+
+eksctl get iamserviceaccount --cluster FARCLUS --name aws-load-balancer-controller --namespace kube-system
+
+
+helm repo add eks https://aws.github.io/eks-charts
+
+kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+    --set clusterName=FARCLUS \
+    --set serviceAccount.create=false \
+    --set region=ap-south-1 \
+    --set vpcId=vpc-09af1b8a4b5ca0676 \
+    --set serviceAccount.name=aws-load-balancer-controller \
+    -n kube-system
+
+
+eksctl create fargateprofile --cluster FARCLUS --region ap-south-1 --name albgame --namespace game-2048
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
+
+kubectl get ingress/ingress-2048 -n game-2048
+
+
+https://aws.amazon.com/premiumsupport/knowledge-center/eks-alb-ingress-controller-fargate/
+
+fxing issues
+------------------------------------
+
+kubectl get events
+ 
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints 
+
+
+deploy webapp
+-------------------------------
+You need to create fargate profile for this. If you are deploying it into another namespace then you need to create a fargate profile for that namespace.
+*********                    *********************
+
+eksctl create fargateprofile --cluster FARCLUS --region ap-south-1 --name nodejsgame --namespace nodejs-apps
+
+kubectl apply -f nodejs-app.yaml
+
+
+get all informations
+--------------------------------
+
+kubectl get all -n <namespace>
+
+
+
+
+
+

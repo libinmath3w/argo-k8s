@@ -1,0 +1,41 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: EKSClusterDemo
+  region: ap-south-1
+  version: "1.24"
+vpc:
+  id: vpc-0b6bc76d50edca11c
+  subnets:
+    public:
+      eks-public-ap-south-1:
+        id: subnet-0375bccbbdd49d8ed
+      eks-public-ap-south-1b:
+        id: subnet-030e12a01d66c8044
+    private:
+      eks-private-ap-south-1:
+        id: subnet-0388e945052ca16d3
+      eks-private-ap-south-1b:
+        id: subnet-093551ec70afa25cd
+nodeGroups:
+- name: general
+  labels:
+    role: general
+  instanceType: t2.micro
+  desiredCapacity: 3
+  privateNetworking: true
+  ssh: 
+    publicKeyName: ekskey
+  subnets:
+  - eks-private-ap-south-1
+  - eks-private-ap-south-1b
+managedNodeGroups: 
+- name: managedEKSNodeJs
+  instanceType: t2.micro
+  desiredCapacity: 3
+  privateNetworking: true
+  subnets:
+  - eks-private-ap-south-1
+  - eks-private-ap-south-1b
+

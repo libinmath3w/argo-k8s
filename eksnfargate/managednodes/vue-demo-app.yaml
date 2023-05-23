@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vueapp-deployment
+  labels:
+     app: vueapp
+     type: front-end
+spec:
+  template:
+     metadata:
+       name: vueapp-pod
+       labels: 
+         app: vueapp
+         type: front-end
+     spec:
+         containers:
+           - name: vueapp-erp
+             image: "ghcr.io/benc-uk/vuego-demoapp:latest"
+            
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue-service
+spec:
+  selector:
+    app: vueapp
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      targetPort: 4000
+      port: 80
+      nodePort: 32000

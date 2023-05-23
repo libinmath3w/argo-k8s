@@ -1,0 +1,39 @@
+switch clusters
+---------------------------
+
+aws eks update-kubeconfig --name SSLManagedEKSCluster --region ap-south-1
+aws eks update-kubeconfig --name NewManagedEKSCluster --region ap-south-1
+
+create cluster
+-----------------
+
+eksctl create cluster -f config.yaml
+
+deploy application
+---------------------------------
+kubectl apply -f node-demo-app.yaml
+kubectl apply -f vue-demo-app.yaml
+
+
+get all informations
+-------------------------
+
+kubectl get all
+
+kubectl get pods
+kubectl get svc
+
+
+delete cluster 
+-------------------------
+
+eksctl delete cluster <clustername>
+
+
+export certificate=$(tr \. - <<< metaonensjsintrastream)-tls
+
+
+
+
+
+

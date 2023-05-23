@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt
+  namespace: node-js-demo # enter the namespace name for the ssl deployment
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory # ssl server information
+    email: demoemailid@gmail.com # email id for generating SSL
+    privateKeySecretRef:
+      name: letsencrypt #secret key name.
+    solvers:
+      - http01:
+          ingress:
+            class:  nginx
