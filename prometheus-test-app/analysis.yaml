@@ -14,5 +14,5 @@ spec:
     successCondition: result[0] >= 0.95
     provider:
       prometheus:
-        address: http://prometheus-server.prometheus.svc.cluster.local:80
+        address: http://prometheus-server.prometheus.svc.cluster.local
         query: sum(response_status{app="{{args.service-name}}",role="canary",status=~"2.*"})/sum(response_status{app="{{args.service-name}}",role="canary"})
