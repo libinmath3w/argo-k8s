@@ -16,3 +16,4 @@ spec:
       prometheus:
         address: http://prometheus.monitoring:9090
         query: sum(response_status{app="{{args.service-name}}",role="canary",status=~"2.*"})/sum(response_status{app="{{args.service-name}}",role="canary"})
+        
