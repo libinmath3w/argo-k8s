@@ -50,7 +50,10 @@ kubectl get all -n monitoring
 
 kubectl patch svc prometheus-server -n monitoring -p '{"spec": {"type": "LoadBalancer"}}'
 
-http://a8efc2cd34bc841af917182ebb10b659-372634069.ap-south-1.elb.amazonaws.com/
+kubectl patch svc prometheus-server -n grafana -p '{"spec": {"type": "LoadBalancer"}}'
+
+afad6c1232abd416e867b6a3087c1cab-887436248.ap-south-1.elb.amazonaws.com
+
 
 # k8s metrics server
 
@@ -143,7 +146,7 @@ kubectl get pvc -n monitoring
 
 helm install -n monitoring -f values.yaml prometheus .
 
-
+kubectl argo rollouts get rollout sample-app -n sample-app
 
 
 issues
@@ -157,6 +160,12 @@ https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kuber
 https://stackoverflow.com/questions/75781947/not-able-to-attach-the-persistent-volume-to-the-prometheus-pod-installed-using-h
 
 solution : https://stackoverflow.com/questions/47235014/why-prometheus-pod-pending-after-setup-it-by-helm-in-kubernetes-cluster-on-ranch
+
+
+# monitor cdr error
+
+kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml
+
 
 
 # projects
